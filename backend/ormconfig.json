@@ -1,0 +1,16 @@
+{
+  "type": "mysql",
+  "username": "root",
+  "password": "minhtaiday3214",
+  "database": "Blog-app",
+  "entities": ["src/entity/*.ts"],
+  "logging": false,
+  "synchronize": true,
+  "migrations": ["src/migrations/**/*.ts"],
+  "subscribers": ["src/subscriber/**/*.ts"],
+  "cli": {
+    "entitiesDir": "src/entity",
+    "migrationsDir": "src/migrations",
+    "subscribersDir": "src/subscriber"
+  }
+}
