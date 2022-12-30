@@ -3,8 +3,8 @@
     "experimentalDecorators": true,
     "emitDecoratorMetadata": true,
     "typeRoots": ["@types", "./node_modules/@types"],
-
-    "target": "es5",
+    "strictPropertyInitialization": false,
+    "target": "es6",
     "module": "commonjs",
     "lib": ["es6"],
     "allowJs": true,
