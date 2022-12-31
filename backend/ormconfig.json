@@ -1,11 +1,14 @@
 {
   "type": "mysql",
+  "host": "localhost",
+  "port": 4000,
   "username": "root",
   "password": "minhtaiday3214",
   "database": "Blog-app",
-  "entities": ["src/entity/*.ts"],
   "logging": false,
   "synchronize": true,
+  "migrationsTableName": "migrations",
+  "entities": ["src/entity/**/*.ts"],
   "migrations": ["src/migrations/**/*.ts"],
   "subscribers": ["src/subscriber/**/*.ts"],
   "cli": {

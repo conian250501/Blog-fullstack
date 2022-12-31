@@ -3,35 +3,46 @@ import {
   Column,
   CreateDateColumn,
   Entity,
+  ManyToOne,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from "typeorm";
+import { Blog } from "./blog.entity";
 
 @Entity()
-export class User {
-  @PrimaryGeneratedColumn()
-  id!: number;
+export class User extends BaseEntity {
+  @PrimaryGeneratedColumn({ type: "int" })
+  id: number;
 
   @Column({ default: null })
-  avatar!: string;
+  avatar: string;
 
   @Column({ default: null })
-  email!: string;
+  email: string;
 
   @Column({ default: null })
-  name!: string;
+  name: string;
 
   @Column({ default: null })
-  password!: string;
+  password: string;
 
   @Column({ default: false })
-  isAdmin!: boolean;
+  isAdmin: boolean;
+
+  @Column({ default: false })
+  verify: boolean;
+
+  @Column({ default: null })
+  token: string;
 
   @Column()
   @CreateDateColumn()
-  createdAt!: Date;
+  createdAt: Date;
 
   @Column()
   @UpdateDateColumn()
-  updatedAt!: Date;
+  updatedAt: Date;
+
+  @ManyToOne(() => Blog, (blog) => blog.user)
+  blogs: Blog[];
 }
