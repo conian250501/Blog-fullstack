@@ -1,4 +1,4 @@
-import { Error, User } from "./custom";
+import { Error } from "./custom";
 
 // to make the file a module and avoid the TypeScript error
 export {};
@@ -6,7 +6,7 @@ export {};
 declare global {
   namespace Express {
     export interface Request {
-      user: User;
+      user: any;
       error: Error;
     }
   }

@@ -10,6 +10,10 @@ export const schemas = {
       .required(),
     passwordConfirm: Joi.ref("password"),
   }),
+  authLogin: Joi.object({
+    email: Joi.string().required(),
+    password: Joi.string().min(8).required(),
+  }),
 };
 
 export const routerHelper = {

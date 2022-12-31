@@ -1,6 +1,7 @@
 import express from "express";
 import { authController } from "../controllers/auth.controller";
 import { routerHelper, schemas } from "../helpers/routerHelper";
+import { authMiddleware } from "../middlewares/auth.middleware";
 
 export const authRouter = express.Router();
 
@@ -9,6 +10,14 @@ authRouter.post(
   routerHelper.validateBody(schemas.authRegister),
   authController.register
 );
-authRouter.post("/login", authController.login);
-authRouter.post("/check-login", authController.checkLogin);
-authRouter.post("/logout", authController.logout);
+authRouter.post(
+  "/login",
+  routerHelper.validateBody(schemas.authLogin),
+  authController.login
+);
+authRouter.get(
+  "/logged_in",
+  authMiddleware.verifyToken,
+  authController.checkLogin
+);
+authRouter.get("/logout", authMiddleware.verifyToken, authController.logout);
