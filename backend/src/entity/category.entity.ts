@@ -1,10 +1,12 @@
 import {
   BaseEntity,
   Column,
+  CreateDateColumn,
   Entity,
   JoinTable,
   ManyToMany,
   PrimaryGeneratedColumn,
+  UpdateDateColumn,
 } from "typeorm";
 import { Blog } from "./blog.entity";
 
@@ -16,10 +18,13 @@ export class Category extends BaseEntity {
   @Column({ type: "varchar", length: 255 })
   name: string;
 
-  @Column({ type: "varchar", length: 255 })
-  content: string;
-
   @ManyToMany(() => Blog, { cascade: true })
   @JoinTable()
   blogs: Blog[];
+
+  @CreateDateColumn()
+  createdAt: Date;
+
+  @UpdateDateColumn()
+  updatedAt: Date;
 }
