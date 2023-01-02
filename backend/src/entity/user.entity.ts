@@ -35,11 +35,9 @@ export class User extends BaseEntity {
   @Column({ default: null })
   token: string;
 
-  @Column()
   @CreateDateColumn()
   createdAt: Date;
 
-  @Column()
   @UpdateDateColumn()
   updatedAt: Date;
 
