@@ -6,9 +6,9 @@ import { authMiddleware } from "../middlewares/auth.middleware";
 export const blogRouter = express.Router();
 
 blogRouter.get("/category", blogController.getByNameCategory);
+blogRouter.get("/category/:categoryId", blogController.getByCategory);
 blogRouter.get("/get_all", blogController.getAll);
 blogRouter.get("/:blogId", blogController.getDetail);
-blogRouter.get("/category/:categoryId", blogController.getByCategory);
 blogRouter.post(
   "/create",
   routerHelper.validateBody(schemas.blogCreateSchema),

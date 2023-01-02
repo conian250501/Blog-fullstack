@@ -125,6 +125,7 @@ export const blogController = {
   update: async (req: Request, res: Response, next: NextFunction) => {
     try {
       const { title, content, categoryName } = req.body;
+
       const { blogId } = req.params;
       const category = await Category.findOneBy({ name: categoryName });
 
