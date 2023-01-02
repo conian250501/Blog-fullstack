@@ -14,6 +14,17 @@ export const schemas = {
     email: Joi.string().required(),
     password: Joi.string().min(8).required(),
   }),
+
+  blogCreateSchema: Joi.object({
+    title: Joi.string().required(),
+    content: Joi.string().required(),
+    categoryName: Joi.string().required(),
+  }),
+  blogUpdateSchema: Joi.object({
+    title: Joi.string(),
+    content: Joi.string(),
+    categoryName: Joi.string(),
+  }),
 };
 
 export const routerHelper = {

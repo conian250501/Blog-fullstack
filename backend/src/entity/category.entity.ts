@@ -18,10 +18,6 @@ export class Category extends BaseEntity {
   @Column({ type: "varchar", length: 255 })
   name: string;
 
-  @ManyToMany(() => Blog, { cascade: true })
-  @JoinTable()
-  blogs: Blog[];
-
   @CreateDateColumn()
   createdAt: Date;
 

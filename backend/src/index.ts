@@ -8,6 +8,7 @@ import morgan from "morgan";
 import bodyParser from "body-parser";
 import * as reflectMetadata from "reflect-metadata";
 import { createConnection } from "typeorm";
+import { dataSource } from "./config/db.config";
 
 dotenv.config();
 
@@ -16,20 +17,11 @@ const app = express();
 
 const main = async () => {
   try {
-    await createConnection({
-      type: "mysql",
-      username: "root",
-      password: "minhtaiday3214",
-      database: "Blog-app",
-      logging: false,
-      synchronize: true,
-      migrationsTableName: "migrations",
-      entities: ["src/entity/**/*.ts"],
-      migrations: ["src/migrations/**/*.ts"],
-      subscribers: ["src/subscriber/**/*.ts"],
-    });
-
-    console.log(`Connected to MySQL`);
+    // Connect to database
+    await dataSource
+      .initialize()
+      .then(() => console.log(`Connected to MySQL`))
+      .catch((err) => console.log(err));
 
     // Library support
     app.use(
@@ -52,7 +44,7 @@ const main = async () => {
       next(error);
     });
     app.use((error: Error, req: Request, res: Response, next: NextFunction) => {
-      res.status(404).json({
+      res.status(500).json({
         message: error.message,
       });
     });
