@@ -3,13 +3,10 @@ import { JwtPayload } from "jsonwebtoken";
 import { User } from "../entity/user.entity";
 
 export const roleMiddleware = {
-  checkAdmin: async (
-    jwtPayload: JwtPayload,
-    req: Request,
-    res: Response,
-    next: NextFunction
-  ) => {
+  checkAdmin: async (req: Request, res: Response, next: NextFunction) => {
     try {
+      const jwtPayload = req.jwtPayload;
+
       const user = await User.findOneBy({ id: Number(jwtPayload.sub) });
 
       if (user) {

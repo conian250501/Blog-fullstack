@@ -8,7 +8,8 @@ export const authMiddleware = {
       const jwtPayload = jwt.verify(token, `${process.env.JWT_SECRET_KEY}`);
 
       if (jwtPayload) {
-        next(jwtPayload);
+        req.jwtPayload = jwtPayload;
+        next();
       } else {
         res.status(401).json({ message: "Please login first" });
       }

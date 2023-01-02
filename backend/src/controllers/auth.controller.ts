@@ -68,13 +68,9 @@ export const authController = {
       next(error);
     }
   },
-  checkLogin: async (
-    jwtPayload: JwtPayload,
-    req: Request,
-    res: Response,
-    next: NextFunction
-  ) => {
+  checkLogin: async (req: Request, res: Response, next: NextFunction) => {
     try {
+      const jwtPayload = req.jwtPayload;
       const user = await User.findOneBy({ id: Number(jwtPayload.sub) });
       if (user) {
         res.status(200).json({ user, isLoggin: true });
@@ -85,12 +81,9 @@ export const authController = {
       next(error);
     }
   },
-  logout: async (
-    jwtPayload: JwtPayload,
-    req: Request,
-    res: Response,
-    next: NextFunction
-  ) => {
+  logout: async (req: Request, res: Response, next: NextFunction) => {
+    const jwtPayload = req.jwtPayload;
+
     const user = await User.findOneBy({ id: Number(jwtPayload.sub) });
     if (user) {
       res.status(200).json({ message: "Logout successfully" });
