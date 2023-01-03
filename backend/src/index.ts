@@ -1,14 +1,17 @@
 "use strict";
 import express, { NextFunction, Request, Response } from "express";
 import dotenv from "dotenv";
-import { rootRouter } from "./routers/rootRouter";
+import { rootRouter } from "./api/v1/routers/rootRouter";
 import cors from "cors";
 import helmet from "helmet";
 import morgan from "morgan";
 import bodyParser from "body-parser";
 import * as reflectMetadata from "reflect-metadata";
 import { createConnection } from "typeorm";
-import { dataSource } from "./config/db.config";
+import { dataSource } from "./api/v1/config/db.config";
+import { User } from "./api/v1/entity/user.entity";
+import { faker } from "@faker-js/faker";
+import { Blog } from "./api/v1/entity/blog.entity";
 
 dotenv.config();
 
@@ -20,7 +23,9 @@ const main = async () => {
     // Connect to database
     await dataSource
       .initialize()
-      .then(() => console.log(`Connected to MySQL`))
+      .then(() => {
+        console.log(`Connected to MySQL`);
+      })
       .catch((err) => console.log(err));
 
     // Library support

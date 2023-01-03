@@ -8,7 +8,7 @@ export const dataSource = new DataSource({
   logging: false,
   synchronize: true,
   migrationsTableName: "migrations",
-  entities: ["src/entity/**/*.ts"],
-  migrations: ["src/migrations/**/*.ts"],
-  subscribers: ["src/subscriber/**/*.ts"],
+  entities: ["src/api/v1/entity/**/*.ts"],
+  migrations: ["src/api/v1/migrations/**/*.ts"],
+  subscribers: ["src/api/v1/subscriber/**/*.ts"],
 });
