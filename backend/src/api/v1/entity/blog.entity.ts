@@ -20,7 +20,7 @@ export class Blog extends BaseEntity {
   @Column({ type: "varchar", length: 20, default: null })
   title: string;
 
-  @Column({ type: "varchar", default: null })
+  @Column({ type: "text", default: null })
   content: string;
 
   @CreateDateColumn()

@@ -1,3 +1,4 @@
+import { faker } from "@faker-js/faker";
 import { NextFunction, Request, Response } from "express";
 import { JwtPayload } from "jsonwebtoken";
 import { Blog } from "../entity/blog.entity";
@@ -10,16 +11,29 @@ export const blogController = {
       const jwtPayload = req.jwtPayload;
       const user = await User.findOneBy({ id: Number(jwtPayload.sub) });
       if (user) {
-        const blogs = await Blog.find({
-          relations: {
-            categories: true,
-            user: true,
-          },
-          where: {
-            user: { id: user.id },
-          },
+        const page: number = Number(req.query.page) || 1;
+        const perPage: number = Number(req.query.limit) || 4;
+        const total = await Blog.createQueryBuilder("blog")
+          .where("blog.user = :id", { id: user.id })
+          .getCount();
+
+        const blogs = await Blog.createQueryBuilder("blog")
+          .select(["blog", "user.id", "user.name", "user.email"])
+          .leftJoin("blog.user", "user")
+          .leftJoin("blog.categories", "category")
+          .offset((page - 1) * perPage)
+          .limit(perPage)
+          .where("blog.user = :id", { id: user.id })
+          .getMany();
+
+        res.status(200).json({
+          blogs,
+          page,
+          per_page: blogs.length,
+          last_page: Math.ceil(total / perPage),
+          total,
+          message: "successfull",
         });
-        res.status(200).json({ blogs, message: "successfull" });
       } else {
         res.status(200).json({ message: "failure" });
       }
@@ -29,13 +43,26 @@ export const blogController = {
   },
   getAll: async (req: Request, res: Response, next: NextFunction) => {
     try {
-      const blogs = await Blog.find({
-        relations: {
-          categories: true,
-          user: true,
-        },
+      const page: number = Number(req.query.page) || 1;
+      const perPage = Number(req.query.limit) || 4;
+      const total = await Blog.createQueryBuilder("blog").getCount();
+
+      const blogs = await Blog.createQueryBuilder("blog")
+        .select(["blog", "user.id", "user.name", "user.email", "category.name"])
+        .leftJoin("blog.user", "user")
+        .leftJoin("blog.categories", "category")
+        .offset((page - 1) * perPage)
+        .limit(perPage)
+        .getMany();
+
+      res.status(200).json({
+        blogs,
+        page,
+        total,
+        per_page: blogs.length,
+        last_page: Math.ceil(total / perPage),
+        message: "Get all blog successfull",
       });
-      res.status(200).json({ blogs, message: "Get all blog successfull" });
     } catch (error) {
       next(error);
     }
@@ -107,8 +134,8 @@ export const blogController = {
       if (category) {
         if (user) {
           const newBlog = Blog.create({
-            title,
-            content,
+            title: faker.lorem.word(),
+            content: faker.lorem.paragraphs(),
             user,
             categories: [category],
           });
