@@ -1,8 +1,7 @@
+import bcrypt from "bcrypt";
 import { NextFunction, Request, Response } from "express";
 import { User } from "../entity/user.entity";
-import bcrypt from "bcrypt";
 import { jwtHelper } from "../helpers/jwtHelper";
-import { JwtPayload } from "jsonwebtoken";
 
 export const authController = {
   register: async (req: Request, res: Response, next: NextFunction) => {
