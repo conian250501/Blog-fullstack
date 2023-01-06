@@ -1,17 +1,14 @@
 "use strict";
-import express, { NextFunction, Request, Response } from "express";
-import dotenv from "dotenv";
-import { rootRouter } from "./api/v1/routers/rootRouter";
+import bodyParser from "body-parser";
 import cors from "cors";
+import dotenv from "dotenv";
+import express, { NextFunction, Request, Response } from "express";
 import helmet from "helmet";
 import morgan from "morgan";
-import bodyParser from "body-parser";
-import * as reflectMetadata from "reflect-metadata";
-import { createConnection } from "typeorm";
+import swaggerJSDoc from "swagger-jsdoc";
 import { dataSource } from "./api/v1/config/db.config";
-import { User } from "./api/v1/entity/user.entity";
-import { faker } from "@faker-js/faker";
-import { Blog } from "./api/v1/entity/blog.entity";
+import { rootRouter } from "./api/v1/routers/rootRouter";
+import swaggerUi from "swagger-ui-express";
 
 dotenv.config();
 
@@ -27,6 +24,27 @@ const main = async () => {
         console.log(`Connected to MySQL`);
       })
       .catch((err) => console.log(err));
+
+    // Swagger UI
+    const options = {
+      definition: {
+        openapi: "3.0.0",
+        info: {
+          title: "Blog API",
+          version: "1.0.0",
+          description: "This is api for  Blog WebApp",
+        },
+        server: [
+          {
+            url: "http://localhost:4000",
+          },
+        ],
+      },
+      apis: ["./src/api/v1/controllers/*.ts"],
+    };
+
+    const specs = swaggerJSDoc(options);
+    app.use("/blog-docs", swaggerUi.serve, swaggerUi.setup(specs));
 
     // Library support
     app.use(

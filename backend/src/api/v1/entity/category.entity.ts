@@ -23,4 +23,7 @@ export class Category extends BaseEntity {
 
   @UpdateDateColumn()
   updatedAt: Date;
+
+  @ManyToMany(() => Blog, (blog) => blog.categories, { cascade: true })
+  blogs: Blog[];
 }

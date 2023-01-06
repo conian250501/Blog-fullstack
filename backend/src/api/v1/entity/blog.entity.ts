@@ -32,7 +32,17 @@ export class Blog extends BaseEntity {
   @ManyToOne(() => User, (user) => user.blogs)
   user: User;
 
-  @ManyToMany(() => Category, { cascade: true })
-  @JoinTable()
+  @ManyToMany(() => Category, (category) => category.blogs)
+  @JoinTable({
+    name: "blogs_categories",
+    joinColumn: {
+      name: "blog",
+      referencedColumnName: "id",
+    },
+    inverseJoinColumn: {
+      name: "category",
+      referencedColumnName: "id",
+    },
+  })
   categories: Category[];
 }
