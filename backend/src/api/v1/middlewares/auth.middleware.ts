@@ -5,7 +5,11 @@ export const authMiddleware = {
   verifyToken: async (req: Request, res: Response, next: NextFunction) => {
     try {
       const token = req.headers.authorization as string;
-      const jwtPayload = jwt.verify(token, `${process.env.JWT_SECRET_KEY}`);
+
+      const jwtPayload = jwt.verify(
+        token.split(" ")[1],
+        `${process.env.JWT_SECRET_KEY}`
+      );
 
       if (jwtPayload) {
         req.jwtPayload = jwtPayload;
