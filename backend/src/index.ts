@@ -34,6 +34,20 @@ const main = async () => {
           version: "1.0.0",
           description: "This is api for  Blog WebApp",
         },
+        components: {
+          securitySchemes: {
+            bearerAuth: {
+              type: "http",
+              scheme: "bearer",
+              bearerFormat: "JWT",
+            },
+          },
+        },
+        security: [
+          {
+            bearerAuth: [],
+          },
+        ],
         server: [
           {
             url: "http://localhost:4000",
