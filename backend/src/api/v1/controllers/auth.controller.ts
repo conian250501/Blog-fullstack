@@ -162,11 +162,6 @@ export const authController = {
       !user && res.status(200).json({ message: "User dont exist" });
 
       if (user) {
-        // CHECK VERIFY
-        // user &&
-        //   !user.verify &&
-        //   res.status(200).json({ message: "Email doesn't verify" });
-
         const isValidPassword = await bcrypt.compare(
           password,
           user ? user.password : ""
