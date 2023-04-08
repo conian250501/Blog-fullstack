@@ -1,23 +1,11 @@
-import express from "express";
-import { authController } from "../controllers/auth.controller";
-import { routerHelper, schemas } from "../helpers/routerHelper";
-import { authMiddleware } from "../middlewares/auth.middleware";
+import { Router } from "express";
+import { IRouter } from "./interface/IRouter";
 
-export const authRouter = express.Router();
+const router = Router()
+class AuthRouter implements IRouter{
+  get routes() { 
+    return router
+  }
+}
 
-authRouter.post(
-  "/register",
-  routerHelper.validateBody(schemas.authRegister),
-  authController.register
-);
-authRouter.post(
-  "/login",
-  routerHelper.validateBody(schemas.authLogin),
-  authController.login
-);
-authRouter.get(
-  "/logged_in",
-  authMiddleware.verifyToken,
-  authController.checkLogin
-);
-authRouter.get("/logout", authMiddleware.verifyToken, authController.logout);
+export default new AuthRouter();

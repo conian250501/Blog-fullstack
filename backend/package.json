@@ -6,9 +6,11 @@
   "scripts": {
     "start": "npm run build && node build/index.js",
     "dev": "npx nodemon",
-    "build": "rimraf ./build && tsc",
+    "build": "tsc --build --clean && tsc",
     "test": "echo \"Error: no test specified\" && exit 1",
-    "migration:run": "ts-node ./node_modules/typeorm/cli.js migration:run"
+    "db:generate": "typeorm-ts-node-commonjs migration:generate -d ./src/api/v1/database/data-source.ts --pretty",
+    "db:migrate": "typeorm-ts-node-commonjs migration:run -d ./src/api/v1/database/data-source.ts",
+    "db:rollback": "typeorm-ts-node-commonjs migration:revert -d ./src/api/v1/database/data-source.ts"
   },
   "keywords": [],
   "author": "",

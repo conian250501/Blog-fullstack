@@ -1,18 +1,18 @@
 import {
-  BaseEntity,
   Column,
   CreateDateColumn,
   Entity,
   ManyToOne,
+  OneToMany,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from "typeorm";
 import { Blog } from "./blog.entity";
+import { BaseEntity } from './base.entity';
 
-@Entity()
+@Entity({name: "users"})
 export class User extends BaseEntity {
-  @PrimaryGeneratedColumn({ type: "int" })
-  id: number;
+
 
   @Column({ default: null })
   avatar: string;
@@ -35,12 +35,7 @@ export class User extends BaseEntity {
   @Column({ default: null })
   token: string;
 
-  @CreateDateColumn()
-  createdAt: Date;
 
-  @UpdateDateColumn()
-  updatedAt: Date;
-
-  @ManyToOne(() => Blog, (blog) => blog.user)
+  @OneToMany(() => Blog, (blog) => blog.user)
   blogs: Blog[];
 }
